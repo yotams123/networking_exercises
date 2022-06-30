@@ -45,7 +45,10 @@ def handle_client_request(command, params):
     response = 'OK'
     if command == 'DIR':
         response = glob.glob(f"{params[0]}/*.*")
-        response = ", ".join(r[52:] for r in response)
+        response = ", ".join(r[len(params[0]) + 1:] for r in response)
+        if response == "":
+            response = "Couldn't find the directory you were looking for. " \
+                       "Make sure you are entering the correct absolute path"
     if command == 'DELETE':
         try:
             os.remove(f'{params[0]}')
