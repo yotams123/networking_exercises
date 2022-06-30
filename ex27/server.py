@@ -63,8 +63,11 @@ def handle_client_request(command, params):
             response = "File not found, please make sure you are entering the correct path"
 
     if command == 'EXECUTE':
-        subprocess.call(f'{params[0]}')
-        response = "Run Successfully"
+        try:
+            subprocess.call(f'{" ".join(params)}')
+            response = "Run Successfully"
+        except FileNotFoundError:
+            response = "File not found, please make sure you are entering the correct absolute path"
     if command == 'TAKE_SCREENSHOT':
         image = pyautogui.screenshot()
         image.save(f"screenshots/{params[0]}.jpg")

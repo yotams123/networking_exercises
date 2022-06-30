@@ -21,8 +21,6 @@ def check_cmd(data):
         return False
     if words[0].upper() == 'COPY' and len(words) != 3:
         return False
-    if words[0].upper() == 'EXECUTE' and len(words) != 2:
-        return False
     if words[0].upper() == 'TAKE_SCREENSHOT' and len(words) != 2:
         return False
     return True
