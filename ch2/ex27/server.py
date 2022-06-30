@@ -2,7 +2,7 @@
 #   Author: Barak Gonen, 2017
 #   Modified for Python 3, 2020
 
-from ex27 import protocol
+from ch2.ex27 import protocol
 import socket
 import glob
 import os
