@@ -12,10 +12,16 @@ server_socket.listen()
 
 
 def generate_response(file):
-    filetype = file.split(".")[1]
-    if filetype in ['jpg', 'ico']:
+    try:
+        filetype = file.split(".")[1]
+    except IndexError:
+        filetype = None
+
+    if filetype in ['jpg', 'ico', 'gif']:
         with open(fr"{ROOT_DIR}{file}", 'rb') as requestfile:
             data = requestfile.read()
+    elif "/calculate-next" in file:
+        data = "5"
     else:
         with open(fr"{ROOT_DIR}{file}", 'r') as requestfile:
             data = ""
@@ -24,7 +30,7 @@ def generate_response(file):
                     data += line
 
     content_type = None
-    if filetype == 'html' or filetype == 'txt':
+    if filetype in ('html', 'txt') or not filetype:
         content_type = "text/html; charset=utf-8"
     elif filetype == "jpg":
         content_type = "image/jpeg"
@@ -34,6 +40,8 @@ def generate_response(file):
         content_type = "text/css"
     elif filetype == "ico":
         content_type = "image/x-icon"
+    elif filetype == "gif":
+        content_type = "image/gif"
 
     if filetype in ['jpg', 'ico']:
         response = f"HTTP/1.1 200 OK\r\nContent-Type: {content_type}\r\naccept-ranges: bytes\r\n\r\n".encode() + data
@@ -54,7 +62,7 @@ def validate_http_request(request):
         requestfile = r[1]
         if requestfile == '/':
             requestfile = '\\index.html'
-        if os.path.isfile(fr"{ROOT_DIR}{requestfile}"):
+        if os.path.isfile(fr"{ROOT_DIR}{requestfile}") or "/calculate-next" in requestfile:
             return True, generate_response(requestfile)
         else:
             return False, "HTTP/1.1 404 Not Found".encode()
