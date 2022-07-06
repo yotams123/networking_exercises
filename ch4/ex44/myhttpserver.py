@@ -21,7 +21,7 @@ def generate_response(file):
         with open(fr"{ROOT_DIR}{file}", 'rb') as requestfile:
             data = requestfile.read()
     elif "/calculate-next" in file:
-        data = "5"
+        data = str(int(file.split("=")[1]) + 1)
     else:
         with open(fr"{ROOT_DIR}{file}", 'r') as requestfile:
             data = ""
