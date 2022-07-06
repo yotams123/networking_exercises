@@ -22,6 +22,11 @@ def generate_response(file):
             data = requestfile.read()
     elif "/calculate-next" in file:
         data = str(int(file.split("=")[1]) + 1)
+    elif "/calculate-area" in file:
+        height = int(file.split("=")[1].split("&")[0])
+        width = int(file.split("=")[2])
+        data = str(int(height * width * 0.5))
+        print(data)
     else:
         with open(fr"{ROOT_DIR}{file}", 'r') as requestfile:
             data = ""
@@ -62,7 +67,8 @@ def validate_http_request(request):
         requestfile = r[1]
         if requestfile == '/':
             requestfile = '\\index.html'
-        if os.path.isfile(fr"{ROOT_DIR}{requestfile}") or "/calculate-next" in requestfile:
+        if os.path.isfile(fr"{ROOT_DIR}{requestfile}") or "/calculate-next" in requestfile or "/calculate-area" \
+                in requestfile:
             return True, generate_response(requestfile)
         else:
             return False, "HTTP/1.1 404 Not Found".encode()
