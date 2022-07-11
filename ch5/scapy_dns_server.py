@@ -19,7 +19,7 @@ def s(packet):
                                     an=DNSRR(rrname=packet[DNS].qd.qname, ttl=100, rdata=addr))
                 print(addr)
     if not packet_dns:
-        dns_query = DNS(rd=1,qd=DNSQR(qname=packet[DNSQR].qname))
+        dns_query = DNS(rd=1, qd=DNSQR(qname=packet[DNSQR].qname))
         response = sr1(IP(dst="198.41.0.4")/UDP(dport=53)/dns_query, verbose=0)
         packet_dns = response[DNS]
         packet_dns.show()
