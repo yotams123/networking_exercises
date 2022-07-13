@@ -10,9 +10,10 @@ server_socket.bind((SERVER_IP, SERVER_PORT))
 server_socket.listen()
 
 open_clients = []
+ready_messages = []
 
 while True:
-    rlist, wlist, xlist = select.select([server_socket] + open_clients, [], [])
+    rlist, wlist, xlist = select.select([server_socket] + open_clients, open_clients, [])
     for r in rlist:
         if r is server_socket:
             (connection, client_address) = server_socket.accept()
@@ -25,4 +26,8 @@ while True:
                 rlist.remove(r)
                 print("Connection closed")
             else:
-                print(data)
+                ready_messages.append((r, data))
+    for client, message in ready_messages:
+        if client in wlist:
+            client.send(message.encode())
+            ready_messages.remove((client, message))
