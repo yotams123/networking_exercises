@@ -7,7 +7,7 @@ SERVER_PORT = 5555
 MAX_LENGTH = 1024
 
 USERNAME = input("Enter username: ")
-while USERNAME[0] == '@':
+while USERNAME[0] == '@' or len(USERNAME) > 99:
     USERNAME = input("Enter username: ")
 
 client_socket = socket.socket()

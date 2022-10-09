@@ -11,8 +11,8 @@ server_socket.bind((SERVER_IP, SERVER_PORT))
 server_socket.listen()
 
 open_clients = []
-pending_msgs = []
-admins = ['ysman']
+pending_msgs = []  # messages that haven't reached everybody
+admins = ['ysman']  # list of admins by username
 
 clients = []
 while True:
