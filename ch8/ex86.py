@@ -5,10 +5,7 @@ MULTICAST = '13579BDF'
 
 b = addr.split(":")
 
-if len(b) == 6:
-    flag = True
-else:
-    flag = False
+flag = True if len(b) == 6 else False
 
 for byte in b:
     if len(byte) != 2 or byte[0].upper() not in VALID_CHARS or byte[1].upper() not in VALID_CHARS:

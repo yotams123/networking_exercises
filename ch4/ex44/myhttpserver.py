@@ -31,8 +31,7 @@ def generate_response(file):
         with open(fr"{ROOT_DIR}{file}", 'r') as requestfile:
             data = ""
             for line in requestfile:
-                if line != "\n":
-                    data += line
+                if line != "\n": data += line
 
     content_type = None
     if filetype in ('html', 'txt') or not filetype:
